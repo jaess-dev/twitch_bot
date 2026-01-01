@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Send Message</h2>
+
+    <input
+      type="text"
+      id="msgInput"
+      placeholder="Enter message"
+      style="width: 300px"
+    />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+      function sendMessage() {
+        const msg = document.getElementById("msgInput").value;
+        const encodedMsg = encodeURIComponent(msg);
+
+        fetch(`http://localhost:8000/say?msg=${encodedMsg}`, {
+          method: "POST",
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Request failed");
+            }
+            return response.text();
+          })
+          .then((data) => {
+            console.log("Success:", data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
+  </body>
+</html>
