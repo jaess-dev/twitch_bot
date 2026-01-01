@@ -13,6 +13,8 @@
     "**/__pycache__": true,
     "**/.python-version": true,
     "**/uv.lock": true,
-    "**/tokens.db*": true
+    "**/tokens.db*": true,
+    "**/node_modules": true,
+    "**/package-lock.json": true
   }
 }

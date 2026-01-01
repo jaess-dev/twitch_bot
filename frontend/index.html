@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      // py_route gets passed down by python
+      window.__INITIAL_ROUTE__ = "{{ py_route }}";
+
+      // this state object is also passed down by python and will set the state object
+      // This way we can do a form of hydration from the server.
+      window.__APP_STATE__ = {{ state | tojson }};
+    </script>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

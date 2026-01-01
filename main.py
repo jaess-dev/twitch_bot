@@ -1,20 +1,43 @@
 import asyncio
 import json
 import logging
-
+from types import CoroutineType
+import typing
 import asqlite
+
 import twitchio
-from api import api
+from chatter.api import api, connection_manager
 from chatter import chat, component_registry
+from chatter.api.templates import mount_assets
 from chatter.components import basic_component
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from chatter.env.environment import LOGGER
+
+from chatter.features.hd2 import tk_counter
 
 import uvicorn
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # your Vite dev server
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
+
+mount_assets(app)
+ws = connection_manager.ConnectionManager.init(app)
+
+__ACTIVE_FEATURES: list[
+    typing.Callable[[FastAPI, chat.Bot, asqlite.Pool], typing.Awaitable[None]]
+] = [
+    tk_counter.register,
+]
 
 
 async def runner() -> None:
@@ -23,6 +46,8 @@ async def runner() -> None:
 
         async with chat.Bot(token_database=tdb, subs=subs) as bot:
             api.configure_api(app, bot)
+            for feature_reg in __ACTIVE_FEATURES:
+                await feature_reg(app, bot, tdb)
 
             for pair in tokens:
                 await bot.add_token(*pair)

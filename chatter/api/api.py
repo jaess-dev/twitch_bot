@@ -1,4 +1,4 @@
-from api import templates
+from chatter.api import templates
 from chatter import chat
 from fastapi import FastAPI, Request
 
@@ -19,14 +19,11 @@ def configure_api(
 
     @app.get("/control", response_class=HTMLResponse)
     async def control(request: Request):
-        return templates.index_template(
+        return await templates.index_template(
+            request,
             {
-                "request": request,
-                "title": "Send Message",
-                "heading": "Send Message",
-            }
+                "msg": "hello there!",
+            },
         )
 
-    @app.get("/overlay/hd2/counter", response_class=HTMLResponse)
-    async def hd2_counter(request: Request):
-        return templates.counter_overlay(request, 0)
+
