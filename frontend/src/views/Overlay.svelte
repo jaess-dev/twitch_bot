@@ -2,15 +2,30 @@
   import { onMount } from "svelte";
   import type { AppState } from "../lib/types/types";
   import { WebSocketClient } from "../lib/web_socket";
+  import Status from "../lib/components/hd2/Status.svelte";
+  import C2A from "../lib/components/hd2/C2A.svelte";
+  import Floater from "../lib/components/hd2/Floater.svelte";
+  import Radar from "../lib/components/hd2/Radar.svelte";
+  import LiveLog from "../lib/components/hd2/LiveLog.svelte";
+  import Hd2Slogan from "../lib/components/hd2/Hd2Slogan.svelte";
+
+  // import "/src/styles/hd2.css";
 
   const _state = window.__APP_STATE__ as AppState;
 
-  let counter = $state(_state.team_kill_counter);
+  let counter = $state(_state.counter);
   let formattedKills = $derived(counter.toLocaleString());
 
-  const title = "Team Kills";
+  let messages = $state([
+    "[00:12:31] SUPPLY DROP AVAILABLE",
+    "[00:12:32] ENEMY ARMOR DESTROYED",
+    "[00:12:33] TEAM KILL +1",
+    "[00:12:34] MISSION TIME EXTENDED",
+  ]);
 
-  let wsClient: WebSocketClient<{ counter: number }>;
+  let title = _state.title;
+
+  let wsClient: WebSocketClient<{ counter?: number; messages?: string[] }>;
 
   onMount(() => {
     wsClient = new WebSocketClient("ws://localhost:8000/ws");
@@ -20,6 +35,10 @@
       if (data.counter !== undefined) {
         counter = data.counter;
       }
+
+      if (data.messages !== undefined) {
+        messages = data.messages;
+      }
     });
 
     wsClient.connect();
@@ -28,18 +47,18 @@
   });
 </script>
 
-<div
-  class="fixed top-6 right-6 z-50 flex flex-col items-end pointer-events-none"
->
-  <div
-    class="flex items-center justify-end px-5 py-2 rounded-lg bg-black/70 backdrop-blur-md text-white font-runic text-lg shadow-lg transition-all duration-300"
-  >
-    <!-- class:flash={flash} -->
+<Status />
+<LiveLog {messages} />
 
-    <span class="text-3xl mr-3 text-yellow-300">{title}:</span>
-    <span class="text-3xl font-bold text-yellow-300">{formattedKills}</span>
-  </div>
-</div>
+<!-- <C2A /> -->
+<!-- <Floater /> -->
+
+<!--
+<Radar />
+ -->
+
+<!-- <Hd2Slogan text="JaessDev" /> -->
+<!-- <Hd2Slogan text="Mission is seek and destory?" /> -->
 
 <style>
   :root {

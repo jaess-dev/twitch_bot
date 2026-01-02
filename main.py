@@ -16,7 +16,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from chatter.env.environment import LOGGER
 
-from chatter.features.hd2 import tk_counter
+from chatter.features.chat_integration import chat_integration
+from chatter.features.hd2 import tk_counter, cs2_counter
 
 import uvicorn
 
@@ -37,6 +38,8 @@ __ACTIVE_FEATURES: list[
     typing.Callable[[FastAPI, chat.Bot, asqlite.Pool], typing.Awaitable[None]]
 ] = [
     tk_counter.register,
+    cs2_counter.register,
+    chat_integration.register,
 ]
 
 

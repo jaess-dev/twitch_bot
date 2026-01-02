@@ -50,5 +50,12 @@ async def index_template(request: Request, state: IndexTemplateParam):
     )
 
 
-async def counter_overlay(request: Request, counter: int):
-    return await __lookup_template(request, "/overlay", {"team_kill_counter": counter})
+async def counter_overlay(request: Request, counter: int, title: str = "Counter"):
+    return await __lookup_template(
+        request,
+        "/overlay",
+        {
+            "counter": counter,
+            "title": title,
+        },
+    )
