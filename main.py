@@ -12,24 +12,14 @@ from chatter.api.templates import mount_assets
 from chatter.components import basic_component
 
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from chatter.env.environment import LOGGER
-
 from chatter.features.chat_integration import chat_integration
 from chatter.features.hd2 import tk_counter, cs2_counter
 
 import uvicorn
 
 app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # your Vite dev server
-    allow_methods=["*"],
-    allow_headers=["*"],
-    allow_credentials=True,
-)
 
 mount_assets(app)
 ws = connection_manager.ConnectionManager.init(app)
