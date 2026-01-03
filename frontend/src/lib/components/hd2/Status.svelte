@@ -19,7 +19,6 @@
   </div>
 
   <div class="justify-self-center">
-    <Hd2Slogan text="JaessDev" />
   </div>
 
   <div class="justify-self-end flex space-x-4">
@@ -40,8 +39,6 @@
          text-yellow-300 text-sm font-bold"
 >
   <div class="justify-self-start flex space-x-4">
-    <!-- <span>MISSION TIME: <span class="text-white">00:12:34</span></span> -->
-    <!-- <span>WAVE: <span class="text-white">03</span></span> -->
   </div>
 
   <div class="justify-self-center">
@@ -49,8 +46,6 @@
   </div>
 
   <div class="justify-self-end flex space-x-4">
-    <span>TEAM KILLS: <span class="text-white">{kills}</span></span>
-    <!-- <span>SUPPLY: <span class="text-white">45%</span></span> -->
   </div>
 </div>
 {/if}

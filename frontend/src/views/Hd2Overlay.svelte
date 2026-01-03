@@ -3,11 +3,7 @@
   import type { AppState } from "../lib/types/types";
   import { WebSocketClient } from "../lib/web_socket";
   import Status from "../lib/components/hd2/Status.svelte";
-  import C2A from "../lib/components/hd2/C2A.svelte";
-  import Floater from "../lib/components/hd2/Floater.svelte";
-  import Radar from "../lib/components/hd2/Radar.svelte";
   import LiveLog from "../lib/components/hd2/LiveLog.svelte";
-  import Hd2Slogan from "../lib/components/hd2/Hd2Slogan.svelte";
 
   // import "/src/styles/hd2.css";
 
@@ -16,20 +12,26 @@
   let counter = $state(_state.counter);
   let formattedKills = $derived(counter.toLocaleString());
 
-  let messages = $state([
-    "[jaessdev] A really long message which should span over multiple lines lets see",
-    "[00:12:31] SUPPLY DROP AVAILABLE",
-    "[00:12:32] ENEMY ARMOR DESTROYED",
-    "[00:12:33] TEAM KILL +1",
-    "[00:12:34] MISSION TIME EXTENDED",
-    "[x] hello",
-    "[x] bye",
-    "[x] bye",
-    "[x] bye",
-    "[x] bye",
-    "[x] bye",
-    "[x] bye",
+  let serverMessages = $state([
+    // "[jaessdev] A really long message which should span over multiple lines lets see",
+    // "[00:12:31] SUPPLY DROP AVAILABLE",
+    // "[00:12:32] ENEMY ARMOR DESTROYED",
+    // "[00:12:33] TEAM KILL +1",
+    // "[00:12:34] MISSION TIME EXTENDED",
+    // "[x] hello",
+    // "[x] bye",
+    // "[x] bye",
+    // "[x] bye",
+    // "[x] bye",
+    // "[x] bye",
+    // "[x] bye",
   ]);
+
+  let messages = $derived.by(() => {
+    let m = serverMessages.slice();
+    m.reverse();
+    return m;
+  });
 
   let title = _state.title;
 
@@ -45,7 +47,7 @@
       }
 
       if (data.messages !== undefined) {
-        messages = data.messages;
+        serverMessages = data.messages;
       }
     });
 
@@ -55,8 +57,8 @@
   });
 </script>
 
-<Status kills={formattedKills} />
-<LiveLog {messages} />
+<Status kills={formattedKills} useLower={true}/>
+<LiveLog messages={messages} />
 
 <!-- <C2A /> -->
 <!-- <Floater /> -->
