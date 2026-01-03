@@ -17,6 +17,7 @@
   let formattedKills = $derived(counter.toLocaleString());
 
   let messages = $state([
+    "[jaessdev] A really long message which should span over multiple lines lets see",
     "[00:12:31] SUPPLY DROP AVAILABLE",
     "[00:12:32] ENEMY ARMOR DESTROYED",
     "[00:12:33] TEAM KILL +1",

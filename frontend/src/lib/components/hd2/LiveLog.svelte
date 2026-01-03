@@ -8,7 +8,7 @@
     right-2
     top-[55%]
     -translate-y-full
-    max-w-lg
+    w-[25%]
     max-h-32
     overflow-hidden
     bg-black/70
