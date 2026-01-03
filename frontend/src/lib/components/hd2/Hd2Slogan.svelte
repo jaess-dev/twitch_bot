@@ -14,11 +14,13 @@
 
 <style>
   .hd2-stack {
-    --line-ratio: 1;
-    --underline-ratio: (1 + (var(--line-ratio) * 2 - 0.2));
-    display: flex;
+    position: relative;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
+
+    --line-ratio: 1;
+    --underline-ratio: (1 + (var(--line-ratio) * 2 - 0.2));
     gap: 6px;
   }
 
@@ -34,6 +36,7 @@
     letter-spacing: 0.15em;
     white-space: nowrap;
     padding: 0 5px;
+    font-size: xx-large;
   }
 
   .hd2-text::before,

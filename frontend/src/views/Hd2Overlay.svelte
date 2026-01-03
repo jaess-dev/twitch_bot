@@ -21,6 +21,13 @@
     "[00:12:32] ENEMY ARMOR DESTROYED",
     "[00:12:33] TEAM KILL +1",
     "[00:12:34] MISSION TIME EXTENDED",
+    "[x] hello",
+    "[x] bye",
+    "[x] bye",
+    "[x] bye",
+    "[x] bye",
+    "[x] bye",
+    "[x] bye",
   ]);
 
   let title = _state.title;
@@ -47,7 +54,7 @@
   });
 </script>
 
-<Status />
+<Status kills={formattedKills} />
 <LiveLog {messages} />
 
 <!-- <C2A /> -->

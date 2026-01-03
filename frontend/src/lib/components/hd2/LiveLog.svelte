@@ -5,13 +5,12 @@
 <div
   class="
     fixed
-    right-6
-    top-1/2
-    -translate-y-1/2
-    w-full
+    right-2
+    top-[55%]
+    -translate-y-full
     max-w-lg
-    h-36
-    overflow-y-auto
+    max-h-32
+    overflow-hidden
     bg-black/70
     backdrop-blur-sm
     border
@@ -23,12 +22,14 @@
     rounded-lg
     shadow-lg
     text-left
+    flex
+    flex-col-reverse
+    gap-1
   "
 >
   {#each messages as message}
-    <div class="leading-tight">{message}</div>
+    <div class="leading-tight whitespace-pre-wrap">
+      {message}
+    </div>
   {/each}
 </div>
-
-<style>
-</style>
