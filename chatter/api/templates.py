@@ -38,8 +38,6 @@ async def __lookup_template(
 
 class IndexTemplateParam(TypedDict):
     msg: str
-    title: str
-    heading: str
 
 
 async def index_template(request: Request, state: IndexTemplateParam):

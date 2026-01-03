@@ -6,7 +6,7 @@ This bot can be restarted as many times without needing to subscribe or worry ab
 
 1. Fill out the constants below; CLIENT_ID etc...
 2. Start the bot
-3. Visit (Logged in on the BOT Account): http://localhost:4343/oauth?scopes=user:read:chat%20user:write:chat%20user:bot
+3. Visit (Logged in on the BOT Account): http://localhost:4343/oauth?scopes=user:read:chat%20user:write:chat%20user:bot%20channel:moderate
  - You only need to do this once usually ^
 4. You can log in as any user and visit: http://localhost:4343/oauth?scopes=channel:bot to allow this bot to chat/commands
 
@@ -77,6 +77,12 @@ class Bot(commands.AutoBot):
         subs: list[eventsub.SubscriptionPayload] = [
             eventsub.ChatMessageSubscription(
                 broadcaster_user_id=payload.user_id, user_id=self.bot_id
+            ),
+            eventsub.ChatMessageDeleteSubscription(
+                broadcaster_user_id=payload.user_id, user_id=self.bot_id
+            ),
+            eventsub.ChannelBanSubscription(
+                broadcaster_user_id=payload.user_id,
             ),
         ]
 
