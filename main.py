@@ -15,6 +15,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from chatter.env.environment import LOGGER, Variables
+from chatter.features.voyagers import voyagers
 from chatter.features.chat_integration import chat_integration
 from chatter.features.hd2 import tk_counter, cs2_counter
 
@@ -41,6 +42,7 @@ __ACTIVE_FEATURES: list[
 ] = [
     tk_counter.register,
     cs2_counter.register,
+    voyagers.register,
     chat_integration.get_register(30),
 ]
 
