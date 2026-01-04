@@ -20,3 +20,4 @@ class Variables(object):
         self.CLIENT_SECRET = getenv("TWITCH_CLIENT_SECRET")
         self.BOT_ID = getenv("SENDER_ID")
         self.OWNER_ID = getenv("BROADCASTER_ID")
+        self.ALLOWED_HOSTS: list[str] = [h.strip() for h in getenv("ALLOWED_HOSTS").split(",")]
