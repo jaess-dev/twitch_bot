@@ -12,8 +12,9 @@ from chatter.api.templates import mount_assets
 from chatter.components import basic_component
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from chatter.env.environment import LOGGER
+from chatter.env.environment import LOGGER, Variables
 from chatter.features.chat_integration import chat_integration
 from chatter.features.hd2 import tk_counter, cs2_counter
 
@@ -23,6 +24,17 @@ app = FastAPI()
 
 mount_assets(app)
 ws = connection_manager.ConnectionManager.init(app)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8000",
+        *Variables().ALLOWED_HOSTS,
+    ],  # your Vite dev server
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
 
 __ACTIVE_FEATURES: list[
     typing.Callable[[FastAPI, chat.Bot, asqlite.Pool], typing.Awaitable[None]]
