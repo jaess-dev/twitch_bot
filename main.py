@@ -41,7 +41,7 @@ __ACTIVE_FEATURES: list[
 ] = [
     tk_counter.register,
     cs2_counter.register,
-    chat_integration.register,
+    chat_integration.get_register(30),
 ]
 
 
