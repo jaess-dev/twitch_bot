@@ -38,7 +38,7 @@
   let wsClient: WebSocketClient<{ counter?: number; messages?: string[] }>;
 
   onMount(() => {
-    wsClient = new WebSocketClient("ws://localhost:8000/ws");
+    wsClient = new WebSocketClient(`ws://${window.location.host}/ws`);
 
     wsClient.onMessage((data) => {
       console.log(`Received ${data}`);
