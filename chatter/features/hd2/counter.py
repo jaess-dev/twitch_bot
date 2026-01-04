@@ -47,16 +47,27 @@ async def register(
         @commands.is_moderator()
         async def counter(self, ctx: commands.Context[chat.Bot]) -> None:
             """Increment Team Kill counter with !tk"""
+            counter = await pc.get_today_counter()
+            await ctx.send(f"{data["channel_msg"]}: {counter}")
+
+        @counter.command(name="+")
+        @commands.is_moderator()
+        async def counter_add(self, ctx: commands.Context[chat.Bot]) -> None:
+            """Increment Team Kill counter with !tk"""
             counter = await pc.increment_today_counter()
+            await ctx.send(f"{data["channel_msg"]}: {counter}")
+
+        @counter.command(name="-")
+        @commands.is_moderator()
+        async def counter_add(self, ctx: commands.Context[chat.Bot]) -> None:
+            """Increment Team Kill counter with !tk"""
+            counter = await pc.decrement_today_counter()
             await ctx.send(f"{data["channel_msg"]}: {counter}")
 
         @counter.command(name="reset")
         @commands.is_moderator()
         async def counter_reset(self, ctx: commands.Context[chat.Bot]) -> None:
-            """Sub command of socials that sends only our discord invite.
-
-            !socials discord
-            """
+            """ """
             counter = await pc.reset_counter_today()
             await ctx.send(f"{data["channel_msg"]}: {counter}")
 

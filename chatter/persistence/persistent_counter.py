@@ -85,6 +85,35 @@ class PersistentCounter(object):
 
             return new_counter
 
+    async def decrement_today_counter(self) -> int:
+        today = datetime.date.today().isoformat()
+        async with self.__db.acquire() as conn:
+            # ensure row exists, then atomically decrement but clamp at 0
+            await conn.execute(
+                """
+                INSERT INTO counters(counter_name, counter_date, counter)
+                VALUES (?, ?, 0)
+                ON CONFLICT(counter_name, counter_date)
+                DO UPDATE SET counter = MAX(counter - 1, 0)
+                """,
+                (self.__name, today),
+            )
+
+            # fetch new value
+            row = await conn.fetchall(
+                """
+                SELECT counter
+                FROM counters
+                WHERE counter_date = ? AND counter_name = ?
+                """,
+                (today, self.__name),
+            )
+
+            new_counter = row[0]["counter"]
+            await self._broadcast_counter(new_counter)
+
+            return new_counter
+
     async def _broadcast_counter(self, counter: int) -> None:
         ws = ConnectionManager()
         await ws.broadcast(json.dumps({"counter": counter}))
