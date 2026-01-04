@@ -1,8 +1,13 @@
 services:
   web:
+    env_file:
+      - .env
     build: .
     container_name: uv_svelte_app
     ports:
+      - "8005:4343"
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+    volumes:
+      - ./tokens.db:/tokens.db

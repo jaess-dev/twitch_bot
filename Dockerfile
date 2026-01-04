@@ -20,15 +20,15 @@ COPY main.py .
 COPY .python-version .
 COPY pyproject.toml .
 COPY uv.lock .
-COPY chatter .
-COPY resources .
+COPY chatter ./chatter
+COPY resources ./resources
 
 RUN uv sync --locked
 
 # Copy frontend build output into backend
 # Adjust if Vite output directory differs
-COPY --from=frontend-build /resources/rendered ./resources
+COPY --from=frontend-build /resources/rendered ./resources/rendered
 
-EXPOSE 8000
+EXPOSE 8000 4343
 
 CMD ["uv", "run", "main.py"]
