@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Hd2Overlay from "./views/Hd2Overlay.svelte";
+  import VoyagersOverlay from "./views/VoyagersOverlay.svelte";
   // import Home from "./Home.svelte";
   // import About from "./About.svelte";
 
@@ -21,8 +22,10 @@
 
 {#if route === "home"}
   <p>Home</p>
-{:else if route === "overlay"}
+{:else if route === "#overlay/hd2"}
   <Hd2Overlay />
+{:else if route === "overlay/voyagers"}
+  <VoyagersOverlay />
 {:else}
   <p>Not found</p>
 {/if}

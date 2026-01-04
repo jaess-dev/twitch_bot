@@ -1,5 +1,6 @@
 <script>
-  import Hd2Slogan from "./Hd2Slogan.svelte";
+  import VoyagersSlogan from "./VoyagersSlogan.svelte";
+import Hd2Slogan from "./VoyagersSlogan.svelte";
 
   let { kills, useLower = false, title = "TEAM KILLS" } = $props();
 </script>
@@ -40,7 +41,7 @@
     <div class="justify-self-start flex space-x-4"></div>
 
     <div class="justify-self-center">
-      <Hd2Slogan text="JaessDev" />
+      <VoyagersSlogan text="JaessDev" />
     </div>
 
     <div class="justify-self-end flex space-x-4"></div>

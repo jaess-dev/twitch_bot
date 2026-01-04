@@ -16,10 +16,11 @@ async def register(
         db,
         {
             "counter_name": "hd2_team_kill",
-            "url": "/overlay/hd2/counter",
+            "url": "/overlay/hd2",
             "title": "Team Kills",
             "bot_command": "tk",
             "channel_msg": "Current team kills",
+            "overlay": "/overlay/hd2"
         },
     )
 

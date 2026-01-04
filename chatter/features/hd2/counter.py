@@ -20,6 +20,7 @@ class RegisterInput(TypedDict):
     title: str
     bot_command: str
     channel_msg: str
+    overlay: str | None
 
 
 async def register(
@@ -35,12 +36,9 @@ async def register(
     @app.get(data["url"], response_class=HTMLResponse)
     async def get_overlay(request: Request):
         counter = await pc.get_today_counter()
-        return await templates.counter_overlay(request, counter, data["title"])
-
-    @app.get(data["url"], response_class=HTMLResponse)
-    async def get_overlay(request: Request):
-        counter = await pc.get_today_counter()
-        return await templates.counter_overlay(request, counter, data["title"])
+        if (ov:=data.get("overlay")) is None:
+            ov = "overlay/hd2"
+        return await templates.counter_overlay(request, counter, data["title"], ov)
 
     class CounterComponent(ABaseComponent):
         @commands.group(name=data["bot_command"], invoke_fallback=True)
@@ -59,7 +57,7 @@ async def register(
 
         @counter.command(name="-")
         @commands.is_moderator()
-        async def counter_add(self, ctx: commands.Context[chat.Bot]) -> None:
+        async def counter_sub(self, ctx: commands.Context[chat.Bot]) -> None:
             """Increment Team Kill counter with !tk"""
             counter = await pc.decrement_today_counter()
             await ctx.send(f"{data["channel_msg"]}: {counter}")

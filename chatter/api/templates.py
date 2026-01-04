@@ -48,10 +48,26 @@ async def index_template(request: Request, state: IndexTemplateParam):
     )
 
 
-async def counter_overlay(request: Request, counter: int, title: str = "Counter"):
+async def counter_overlay(
+    request: Request,
+    counter: int,
+    title: str = "Counter",
+    overlay: str = "/overlay/hd2",
+):
     return await __lookup_template(
         request,
-        "/overlay",
+        overlay,
+        {
+            "counter": counter,
+            "title": title,
+        },
+    )
+
+
+async def voyagers_overlay(request: Request, counter: int, title: str = "Counter"):
+    return await __lookup_template(
+        request,
+        "/overlay/voyagers",
         {
             "counter": counter,
             "title": title,
