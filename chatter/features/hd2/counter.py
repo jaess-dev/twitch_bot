@@ -33,15 +33,31 @@ async def register(
     await pc.setup_database()
 
     @app.get(data["url"], response_class=HTMLResponse)
-    async def get_counter(request: Request):
+    async def get_overlay(request: Request):
+        counter = await pc.get_today_counter()
+        return await templates.counter_overlay(request, counter, data["title"])
+
+    @app.get(data["url"], response_class=HTMLResponse)
+    async def get_overlay(request: Request):
         counter = await pc.get_today_counter()
         return await templates.counter_overlay(request, counter, data["title"])
 
     class CounterComponent(ABaseComponent):
-        @commands.command(name=data["bot_command"])
-        async def counter_command(self, ctx: commands.Context) -> None:
+        @commands.group(name=data["bot_command"], invoke_fallback=True)
+        @commands.is_moderator()
+        async def counter(self, ctx: commands.Context[chat.Bot]) -> None:
             """Increment Team Kill counter with !tk"""
             counter = await pc.increment_today_counter()
+            await ctx.send(f"{data["channel_msg"]}: {counter}")
+
+        @counter.command(name="reset")
+        @commands.is_moderator()
+        async def counter_reset(self, ctx: commands.Context[chat.Bot]) -> None:
+            """Sub command of socials that sends only our discord invite.
+
+            !socials discord
+            """
+            counter = await pc.reset_counter_today()
             await ctx.send(f"{data["channel_msg"]}: {counter}")
 
     # components are registered by name and cannot be registered twice.

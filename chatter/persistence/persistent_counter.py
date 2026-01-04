@@ -40,6 +40,28 @@ class PersistentCounter(object):
                 return 0
             return row[0]["counter"]
 
+    async def reset_counter_today(self) -> int:
+        today = datetime.date.today().isoformat()
+        async with self.__db.acquire() as conn:
+            row = await conn.fetchall(
+                "SELECT counter FROM counters WHERE counter_date = ? and counter_name = ?",
+                (today, self.__name),
+            )
+            if not row:
+                # create a new row for today
+                await conn.execute(
+                    "INSERT INTO counters (counter_name, counter_date, counter) VALUES (?, ?, ?)",
+                    (self.__name, today, 0),
+                )
+            else:
+                await conn.execute(
+                    "UPDATE counters SET counter = 0 WHERE counter_date = ? and counter_name = ?",
+                    (today, self.__name),
+                )
+
+            await self._broadcast_counter(0)
+            return 0
+
     async def increment_today_counter(self) -> int:
         today = datetime.date.today().isoformat()
         async with self.__db.acquire() as conn:
@@ -59,10 +81,10 @@ class PersistentCounter(object):
             )
 
             new_counter = row[0]["counter"]
-
-            ws = ConnectionManager()
-            same = ws is ConnectionManager()
-            # broadcast new value to all clients
-            await ws.broadcast(json.dumps({"counter": new_counter}))
+            await self._broadcast_counter(new_counter)
 
             return new_counter
+
+    async def _broadcast_counter(self, counter: int) -> None:
+        ws = ConnectionManager()
+        await ws.broadcast(json.dumps({"counter": counter}))
