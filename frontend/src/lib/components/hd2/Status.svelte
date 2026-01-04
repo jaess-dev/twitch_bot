@@ -19,10 +19,10 @@
   </div>
 
   <div class="justify-self-center">
+    <span>TEAM KILLS: <span class="text-white">{kills}</span></span>
   </div>
 
   <div class="justify-self-end flex space-x-4">
-    <span>TEAM KILLS: <span class="text-white">{kills}</span></span>
     <!-- <span>SUPPLY: <span class="text-white">45%</span></span> -->
   </div>
 </div>
