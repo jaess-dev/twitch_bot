@@ -1,4 +1,5 @@
-from typing import TypedDict
+from typing import NotRequired, TypedDict
+import typing
 import asqlite
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -17,6 +18,7 @@ from chatter.persistence.persistent_counter import PersistentCounter
 class RegisterInput(TypedDict):
     counter_name: str
     url: str
+    api: NotRequired[str]
     title: str
     bot_command: str
     channel_msg: str
@@ -33,10 +35,16 @@ async def register(
     pc = PersistentCounter(db, data["counter_name"])
     await pc.setup_database()
 
+    if (api := data.get("api")) is not None:
+
+        @app.get(api)
+        async def get_counter(request: Request):
+            return await pc.get_today_counter()
+
     @app.get(data["url"], response_class=HTMLResponse)
     async def get_overlay(request: Request):
         counter = await pc.get_today_counter()
-        if (ov:=data.get("overlay")) is None:
+        if (ov := data.get("overlay")) is None:
             ov = "overlay/hd2"
         return await templates.counter_overlay(request, counter, data["title"], ov)
 
