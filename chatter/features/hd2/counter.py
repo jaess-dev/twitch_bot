@@ -42,7 +42,7 @@ async def register(
 
     class CounterComponent(ABaseComponent):
         @commands.group(name=data["bot_command"], invoke_fallback=True)
-        @commands.is_moderator()
+        # @commands.is_moderator()
         async def counter(self, ctx: commands.Context[chat.Bot]) -> None:
             """Increment Team Kill counter with !tk"""
             counter = await pc.get_today_counter()

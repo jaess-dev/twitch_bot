@@ -17,7 +17,7 @@ async def register(
         {
             "counter_name": "cs2_counter",
             "url": "/overlay/cs2/counter",
-            "title": "Total Kills",
+            "title": "TOTAL KILLS",
             "bot_command": "csk",
             "channel_msg": "Current CS 2 kills",
         },

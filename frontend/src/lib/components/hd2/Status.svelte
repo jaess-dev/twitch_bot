@@ -1,7 +1,7 @@
 <script>
   import Hd2Slogan from "./Hd2Slogan.svelte";
 
-  let { kills, useLower = false, title = "TEAM KILLS" } = $props();
+  let { kills, useLower = false, title = "Team Kills" } = $props();
 </script>
 
 <div

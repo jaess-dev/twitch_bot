@@ -33,7 +33,7 @@
     return m;
   });
 
-  let title = _state.title;
+  let title = $state(_state.title);
 
   let wsClient: WebSocketClient<{ counter?: number; messages?: string[] }>;
 
@@ -57,7 +57,7 @@
   });
 </script>
 
-<Status kills={formattedKills} useLower={true}/>
+<Status kills={formattedKills} useLower={true} title={title}/>
 <LiveLog messages={messages} />
 
 <!-- <C2A /> -->
