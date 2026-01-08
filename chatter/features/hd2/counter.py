@@ -62,6 +62,13 @@ async def register(
             counter = await pc.decrement_today_counter()
             await ctx.send(f"{data["channel_msg"]}: {counter}")
 
+        @counter.command(name="set")
+        @commands.is_moderator()
+        async def counter_set(self, ctx: commands.Context[chat.Bot], val: int) -> None:
+            """Increment Team Kill counter with !tk"""
+            counter = await pc.set_today_counter(val)
+            await ctx.send(f"{data["channel_msg"]}: {counter}")
+
         @counter.command(name="reset")
         @commands.is_moderator()
         async def counter_reset(self, ctx: commands.Context[chat.Bot]) -> None:
